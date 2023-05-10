@@ -1,0 +1,98 @@
+definitions:
+  domain.WxGenealogy:
+    properties:
+      cover:
+        type: string
+      createBy:
+        type: string
+      createTime:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updateBy:
+        type: string
+      updateTime:
+        type: string
+    type: object
+  main.GreeterResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  response.Result:
+    properties:
+      Code:
+        type: integer
+      Data: {}
+      Msg:
+        type: string
+    type: object
+  valobj.GenealogyPagingReq:
+    properties:
+      limit:
+        type: integer
+      offset:
+        type: integer
+      title:
+        type: string
+    type: object
+  valobj.GenealogyPagingRes:
+    properties:
+      genealogies:
+        items:
+          $ref: '#/definitions/domain.WxGenealogy'
+        type: array
+      total:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /myapp/api/v1/genealogy/paging:
+    post:
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/valobj.GenealogyPagingReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Result'
+            - properties:
+                Data:
+                  items:
+                    $ref: '#/definitions/valobj.GenealogyPagingRes'
+                  type: array
+              type: object
+      summary: 分页查询家谱数据
+      tags:
+      - Genealogy
+  /v1/greeter:
+    get:
+      operationId: "1"
+      parameters:
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.GreeterResponse'
+      summary: Greeter
+      tags:
+      - Hello
+swagger: "2.0"

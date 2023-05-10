@@ -1,0 +1,79 @@
+gin:
+  - name: myapp
+    port: 8080
+    enabled: true
+    commonService:
+      enabled: true
+    sw:
+      enabled: true
+    docs:
+      enabled: true
+    prom:
+      enabled: true
+    middleware:
+      logging:
+        enabled: true
+      prom:
+        enabled: true
+logger:
+  - name: zap-logger                  # Required
+    zap:
+      level: info                         # Optional, default: info, options: [debug, DEBUG, info, INFO, warn, WARN, dpanic, DPANIC, panic, PANIC, fatal, FATAL]
+      development: true                   # Optional, default: true
+      disableCaller: false                # Optional, default: false
+      disableStacktrace: true             # Optional, default: true
+      sampling: # Optional, default: empty map
+        initial: 0
+        thereafter: 0
+      encoding: console                   # Optional, default: "console", options: [console, json]
+      encoderConfig:
+        messageKey: "msg"                 # Optional, default: "msg"
+        levelKey: "level"                 # Optional, default: "level"
+        timeKey: "ts"                     # Optional, default: "ts"
+        nameKey: "logger"                 # Optional, default: "logger"
+        callerKey: "caller"               # Optional, default: "caller"
+        functionKey: ""                   # Optional, default: ""
+        stacktraceKey: "stacktrace"       # Optional, default: "stacktrace"
+        callstackKey: callstack
+        errorKey: error
+        lineEnding: "\n"                  # Optional, default: "\n"
+        fileKey: file
+        levelEncoder: "capitalColor"      # Optional, default: "capitalColor", options: [capital, capitalColor, color, lowercase]
+        timeEncoder: "iso8601"            # Optional, default: "iso8601", options: [rfc3339nano, RFC3339Nano, rfc3339, RFC3339, iso8601, ISO8601, millis, nanos]
+        durationEncoder: "string"         # Optional, default: "string", options: [string, nanos, ms]
+        callerEncoder: full                 # Optional, default: ""
+        nameEncoder: full                  # Optional, default: ""
+        consoleSeparator: ""              # Optional, default: ""
+      outputPaths:
+        - stdout
+        - logs/rk-logger.log         # Optional, default: ["stdout"], stdout would be replaced if specified
+      errorOutputPaths:
+        - stderr     # Optional, default: ["stderr"], stderr would be replaced if specified
+      initialFields: { } # Optional, default: empty map
+    lumberjack:
+      maxsize: 1                       # Optional, default: 1024 (MB)
+      maxage: 7                           # Optional, default: 7 (days)
+      maxbackups: 3                       # Optional, default: 3 (days)
+      localtime: true                     # Optional, default: true
+      compress: true                      # Optional, default: true
+mysql:
+  - name: myapp                     # Required
+    enabled: true                     # Required
+    domain: "*"                       # Optional
+    addr: "9.135.74.213:3306"            # Optional, default: localhost:3306
+    user: root                        # Optional, default: root
+    pass: tbpm@2020                        # Optional, default: pass
+    logger:
+      entry: ""
+      level: info
+      #encoding: json
+      outputPaths: [ "stdout", "logs/rk-db.log" ]
+      slowThresholdMs: 5000
+      ignoreRecordNotFoundError: false
+    database:
+      - name: myapp                    # Required
+        autoCreate: false              # Optional, default: false
+        dryRun: false                # Optional, default: false
+#        params: []                   # Optional, default: ["charset=utf8mb4","parseTime=True","loc=Local"]
+
+
