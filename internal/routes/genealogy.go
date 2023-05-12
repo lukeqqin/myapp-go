@@ -8,21 +8,21 @@ import (
 	"myapp-go/internal/service/genealogy"
 )
 
-// Paging handler
-// @Summary 分页查询家谱数据
+// Assemble handler
+// @Summary 分页聚合查询家谱数据
 // @Tags Genealogy
 // @version 1.0
 // @produce application/json
 // @Param request body valobj.GenealogyPagingReq true "query params"
-// @Success 200 {object} response.Result{Data=[]valobj.GenealogyPagingRes}
-// @Router /myapp/api/v1/genealogy/paging [post]
-func Paging(c *gin.Context) {
+// @Success 200 {object} response.Result{Data=[]genealogy.GenealogyAssembleRes}
+// @Router /myapp/api/v1/genealogy/assemble [post]
+func Assemble(c *gin.Context) {
 	req := new(valobj.GenealogyPagingReq)
 	if err := c.ShouldBindJSON(req); err != nil {
 		response.Fail(c, err.Error())
 		return
 	}
-	results, err := genealogy.Paging(req)
+	results, err := genealogy.Assemble(req)
 	if err != nil {
 		log.Errorf("FindAll err %v", err)
 		response.Fail(c, err.Error())

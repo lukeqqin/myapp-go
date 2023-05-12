@@ -5,7 +5,11 @@ import (
 )
 
 var GenealogyRepository *_GenealogyRepository
+var UserRepository *_UserRepository
+var GenealogyTagRepository *_GenealogyTagRepository
 
 func NewRepositories(db *gorm.DB) {
-	GenealogyRepository = NewGenealogyRepository(db)
+	GenealogyRepository = newGenealogyRepository(db)
+	UserRepository = newUserRepository(db)
+	GenealogyTagRepository = newGenealogyTagRepository(db)
 }

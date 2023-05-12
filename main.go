@@ -23,7 +23,7 @@ func main() {
 	{
 		genealogy := myapp.Group("/genealogy")
 		{
-			genealogy.POST("/paging", routes.Paging)
+			genealogy.POST("/assemble", routes.Assemble)
 			genealogy.GET("/test", Greeter)
 		}
 	}

@@ -11,8 +11,8 @@ type WxGenealogy struct {
 	Cover    string    `gorm:"column:cover;type:varchar(255)"`
 	CreateAt time.Time `gorm:"column:create_at;type:datetime"`
 	UpdateAt time.Time `gorm:"column:update_at;type:datetime"`
-	CreateBy string    `gorm:"column:create_by;type:varchar(32)"`
-	UpdateBy string    `gorm:"column:update_by;type:varchar(32)"`
+	CreateBy int64     `gorm:"column:create_by;type:bigint(20)"`
+	UpdateBy int64     `gorm:"column:update_by;type:bigint(20)"`
 }
 
 // WxGenealogyColumns get sql column name.获取数据库列名
@@ -37,7 +37,7 @@ var WxGenealogyColumns = struct {
 // WxGenealogyTags [...]
 type WxGenealogyTags struct {
 	ID          int64  `gorm:"primaryKey;column:id;type:bigint(20);not null"`
-	GenealogyID int64  `gorm:"column:genealogy_id;type:bigint(20);not null"`
+	GenealogyID int64  `gorm:"index:wx_genealogy_tags_genealogy_id_index;column:genealogy_id;type:bigint(20);not null"`
 	Name        string `gorm:"column:name;type:varchar(32);not null"`
 }
 
@@ -54,7 +54,7 @@ var WxGenealogyTagsColumns = struct {
 
 // WxUser 小程序-微信openid用户表
 type WxUser struct {
-	ID          uint64    `gorm:"primaryKey;column:id;type:bigint(20) unsigned;not null"`
+	ID          int64     `gorm:"primaryKey;column:id;type:bigint(20);not null"`
 	Appid       string    `gorm:"uniqueIndex:openid;column:appid;type:varchar(255);not null;default:''"`
 	Openid      string    `gorm:"uniqueIndex:openid;column:openid;type:varchar(255);not null;default:''"`
 	Unionid     string    `gorm:"column:unionid;type:varchar(255);not null;default:''"`

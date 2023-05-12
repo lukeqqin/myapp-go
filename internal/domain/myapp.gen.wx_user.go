@@ -56,7 +56,7 @@ func (obj *_WxUserMgr) Count(count *int64) (tx *gorm.DB) {
 //////////////////////////option case ////////////////////////////////////////////
 
 // WithID id获取
-func (obj *_WxUserMgr) WithID(id uint64) Option {
+func (obj *_WxUserMgr) WithID(id int64) Option {
 	return optionFunc(func(o *options) { o.query["id"] = id })
 }
 
@@ -176,14 +176,14 @@ func (obj *_WxUserMgr) GetByOptions(opts ...Option) (results []*WxUser, err erro
 //////////////////////////enume case ////////////////////////////////////////////
 
 // GetFromID 通过id获取内容
-func (obj *_WxUserMgr) GetFromID(id uint64) (result WxUser, err error) {
+func (obj *_WxUserMgr) GetFromID(id int64) (result WxUser, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxUser{}).Where("`id` = ?", id).Find(&result).Error
 
 	return
 }
 
 // GetBatchFromID 批量查找
-func (obj *_WxUserMgr) GetBatchFromID(ids []uint64) (results []*WxUser, err error) {
+func (obj *_WxUserMgr) GetBatchFromID(ids []int64) (results []*WxUser, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxUser{}).Where("`id` IN (?)", ids).Find(&results).Error
 
 	return
@@ -430,7 +430,7 @@ func (obj *_WxUserMgr) GetBatchFromUpdatedAt(updatedAts []time.Time) (results []
 //////////////////////////primary index case ////////////////////////////////////////////
 
 // FetchByPrimaryKey primary or index 获取唯一内容
-func (obj *_WxUserMgr) FetchByPrimaryKey(id uint64) (result WxUser, err error) {
+func (obj *_WxUserMgr) FetchByPrimaryKey(id int64) (result WxUser, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxUser{}).Where("`id` = ?", id).Find(&result).Error
 
 	return

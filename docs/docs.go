@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/myapp/api/v1/genealogy/paging": {
+        "/myapp/api/v1/genealogy/assemble": {
             "post": {
                 "produces": [
                     "application/json"
@@ -24,7 +24,7 @@ const docTemplate = `{
                 "tags": [
                     "Genealogy"
                 ],
-                "summary": "分页查询家谱数据",
+                "summary": "分页聚合查询家谱数据",
                 "parameters": [
                     {
                         "description": "query params",
@@ -50,7 +50,7 @@ const docTemplate = `{
                                         "Data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/valobj.GenealogyPagingRes"
+                                                "$ref": "#/definitions/genealogy.GenealogyAssembleRes"
                                             }
                                         }
                                     }
@@ -92,28 +92,42 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "domain.WxGenealogy": {
+        "genealogy.GenealogyAssembleRes": {
             "type": "object",
             "properties": {
+                "genealogies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/genealogy.wxGenealogyAssemble"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "genealogy.wxGenealogyAssemble": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
                 "cover": {
                     "type": "string"
                 },
                 "createBy": {
                     "type": "string"
                 },
-                "createTime": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "title": {
-                    "type": "string"
-                },
-                "updateBy": {
-                    "type": "string"
-                },
-                "updateTime": {
                     "type": "string"
                 }
             }
@@ -149,20 +163,6 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
-                }
-            }
-        },
-        "valobj.GenealogyPagingRes": {
-            "type": "object",
-            "properties": {
-                "genealogies": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/domain.WxGenealogy"
-                    }
-                },
-                "total": {
-                    "type": "integer"
                 }
             }
         }

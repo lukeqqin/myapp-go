@@ -81,12 +81,12 @@ func (obj *_WxGenealogyMgr) WithUpdateAt(updateAt time.Time) Option {
 }
 
 // WithCreateBy create_by获取
-func (obj *_WxGenealogyMgr) WithCreateBy(createBy string) Option {
+func (obj *_WxGenealogyMgr) WithCreateBy(createBy int64) Option {
 	return optionFunc(func(o *options) { o.query["create_by"] = createBy })
 }
 
 // WithUpdateBy update_by获取
-func (obj *_WxGenealogyMgr) WithUpdateBy(updateBy string) Option {
+func (obj *_WxGenealogyMgr) WithUpdateBy(updateBy int64) Option {
 	return optionFunc(func(o *options) { o.query["update_by"] = updateBy })
 }
 
@@ -191,28 +191,28 @@ func (obj *_WxGenealogyMgr) GetBatchFromUpdateAt(updateAts []time.Time) (results
 }
 
 // GetFromCreateBy 通过create_by获取内容
-func (obj *_WxGenealogyMgr) GetFromCreateBy(createBy string) (results []*WxGenealogy, err error) {
+func (obj *_WxGenealogyMgr) GetFromCreateBy(createBy int64) (results []*WxGenealogy, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxGenealogy{}).Where("`create_by` = ?", createBy).Find(&results).Error
 
 	return
 }
 
 // GetBatchFromCreateBy 批量查找
-func (obj *_WxGenealogyMgr) GetBatchFromCreateBy(createBys []string) (results []*WxGenealogy, err error) {
+func (obj *_WxGenealogyMgr) GetBatchFromCreateBy(createBys []int64) (results []*WxGenealogy, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxGenealogy{}).Where("`create_by` IN (?)", createBys).Find(&results).Error
 
 	return
 }
 
 // GetFromUpdateBy 通过update_by获取内容
-func (obj *_WxGenealogyMgr) GetFromUpdateBy(updateBy string) (results []*WxGenealogy, err error) {
+func (obj *_WxGenealogyMgr) GetFromUpdateBy(updateBy int64) (results []*WxGenealogy, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxGenealogy{}).Where("`update_by` = ?", updateBy).Find(&results).Error
 
 	return
 }
 
 // GetBatchFromUpdateBy 批量查找
-func (obj *_WxGenealogyMgr) GetBatchFromUpdateBy(updateBys []string) (results []*WxGenealogy, err error) {
+func (obj *_WxGenealogyMgr) GetBatchFromUpdateBy(updateBys []int64) (results []*WxGenealogy, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxGenealogy{}).Where("`update_by` IN (?)", updateBys).Find(&results).Error
 
 	return

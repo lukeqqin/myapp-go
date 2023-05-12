@@ -12,8 +12,7 @@ type _GenealogyRepository struct {
 	db *gorm.DB
 }
 
-// NewGenealogyRepository 构造函数
-func NewGenealogyRepository(db *gorm.DB) *_GenealogyRepository {
+func newGenealogyRepository(db *gorm.DB) *_GenealogyRepository {
 	return &_GenealogyRepository{db: db}
 }
 

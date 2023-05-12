@@ -1,19 +1,28 @@
 definitions:
-  domain.WxGenealogy:
+  genealogy.GenealogyAssembleRes:
     properties:
+      genealogies:
+        items:
+          $ref: '#/definitions/genealogy.wxGenealogyAssemble'
+        type: array
+      total:
+        type: integer
+    type: object
+  genealogy.wxGenealogyAssemble:
+    properties:
+      avatar:
+        type: string
       cover:
         type: string
       createBy:
         type: string
-      createTime:
-        type: string
       id:
         type: integer
+      tags:
+        items:
+          type: string
+        type: array
       title:
-        type: string
-      updateBy:
-        type: string
-      updateTime:
         type: string
     type: object
   main.GreeterResponse:
@@ -38,19 +47,10 @@ definitions:
       title:
         type: string
     type: object
-  valobj.GenealogyPagingRes:
-    properties:
-      genealogies:
-        items:
-          $ref: '#/definitions/domain.WxGenealogy'
-        type: array
-      total:
-        type: integer
-    type: object
 info:
   contact: {}
 paths:
-  /myapp/api/v1/genealogy/paging:
+  /myapp/api/v1/genealogy/assemble:
     post:
       parameters:
       - description: query params
@@ -70,10 +70,10 @@ paths:
             - properties:
                 Data:
                   items:
-                    $ref: '#/definitions/valobj.GenealogyPagingRes'
+                    $ref: '#/definitions/genealogy.GenealogyAssembleRes'
                   type: array
               type: object
-      summary: 分页查询家谱数据
+      summary: 分页聚合查询家谱数据
       tags:
       - Genealogy
   /v1/greeter:

@@ -149,3 +149,10 @@ func (obj *_WxGenealogyTagsMgr) FetchByPrimaryKey(id int64) (result WxGenealogyT
 
 	return
 }
+
+// FetchIndexByWxGenealogyTagsGenealogyIDIndex  获取多个内容
+func (obj *_WxGenealogyTagsMgr) FetchIndexByWxGenealogyTagsGenealogyIDIndex(genealogyID int64) (results []*WxGenealogyTags, err error) {
+	err = obj.DB.WithContext(obj.ctx).Model(WxGenealogyTags{}).Where("`genealogy_id` = ?", genealogyID).Find(&results).Error
+
+	return
+}
