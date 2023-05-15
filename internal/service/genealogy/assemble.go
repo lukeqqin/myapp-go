@@ -44,7 +44,7 @@ func Assemble(req *valobj.GenealogyPagingReq) (rsp *GenealogyAssembleRes, err er
 		wxGenealogyAssemble := &wxGenealogyAssemble{
 			ID:       v.ID,
 			Title:    v.Title,
-			Cover:    v.Title,
+			Cover:    v.Cover,
 			CreateBy: u.Nickname,
 			Avatar:   u.Avatar,
 			Tags:     Tags,
