@@ -1,6 +1,7 @@
 package persistence
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"myapp-go/internal/domain"
 	"myapp-go/internal/domain/valobj"
@@ -20,10 +21,16 @@ func (gr *_GenealogyRepository) Paging(req *valobj.GenealogyPagingReq) (rsp *val
 	rsp = new(valobj.GenealogyPagingRes)
 	var total int64
 	mgr := domain.WxGenealogyMgr(gr.db)
-
-	if tx := mgr.Where(req.GenealogyReq).Count(&total); tx.Error != nil {
-		log.Errorf("_GenealogyRepository count error %v", tx.Error)
-		return nil, tx.Error
+	if req.GenealogyReq.Title != "" {
+		if tx := mgr.Where("title like ?", fmt.Sprint("%", req.GenealogyReq.Title, "%")).Count(&total); tx.Error != nil {
+			log.Errorf("_GenealogyRepository count error %v", tx.Error)
+			return nil, tx.Error
+		}
+	} else {
+		if tx := mgr.Count(&total); tx.Error != nil {
+			log.Errorf("_GenealogyRepository count error %v", tx.Error)
+			return nil, tx.Error
+		}
 	}
 	var genealogies []*domain.WxGenealogy
 	if tx := mgr.Limit(req.PagingReq.Limit).Offset(req.PagingReq.Offset).Find(&genealogies); tx.Error != nil {
