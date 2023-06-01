@@ -60,9 +60,9 @@ mysql:
   - name: myapp                     # Required
     enabled: true                     # Required
     domain: "*"                       # Optional
-    addr: "9.135.74.213:3306"            # Optional, default: localhost:3306
+    addr: "139.155.137.11:3306"            # Optional, default: localhost:3306
     user: root                        # Optional, default: root
-    pass: tbpm@2020                        # Optional, default: pass
+    pass: lukeqqin@149962                       # Optional, default: pass
     logger:
       entry: ""
       level: info
