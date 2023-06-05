@@ -5,7 +5,7 @@ import (
 	"myapp-go/internal/infrustructure/persistence"
 )
 
-type GenealogyAssembleRes struct {
+type AssembleRes struct {
 	Total       int64
 	Genealogies []*wxGenealogyAssemble
 }
@@ -19,12 +19,12 @@ type wxGenealogyAssemble struct {
 	Tags     []string
 }
 
-func Assemble(req *valobj.GenealogyPagingReq) (rsp *GenealogyAssembleRes, err error) {
+func Assemble(req *valobj.GenealogyPagingReq) (rsp *AssembleRes, err error) {
 	grsp, err := persistence.GenealogyRepository.Paging(req)
 	if err != nil {
 		return nil, err
 	}
-	rsp = new(GenealogyAssembleRes)
+	rsp = new(AssembleRes)
 	rsp.Total = grsp.Total
 	var wxGenealogyAssembles []*wxGenealogyAssemble
 	for i := range grsp.Genealogies {

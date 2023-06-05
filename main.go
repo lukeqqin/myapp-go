@@ -24,7 +24,7 @@ func main() {
 		genealogy := myapp.Group("/genealogy")
 		{
 			genealogy.POST("/assemble", routes.Assemble)
-			genealogy.GET("/test", Greeter)
+			genealogy.GET("/members", Greeter)
 		}
 	}
 	boot.WaitForShutdownSig(context.Background())
