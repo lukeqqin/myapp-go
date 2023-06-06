@@ -18,25 +18,22 @@ func newGenealogyRepository(db *gorm.DB) *_GenealogyRepository {
 }
 
 func (gr *_GenealogyRepository) Paging(req *valobj.GenealogyPagingReq) (rsp *valobj.GenealogyPagingRes, err error) {
-	rsp = new(valobj.GenealogyPagingRes)
 	var total int64
 	mgr := domain.WxGenealogyMgr(gr.db)
+	var tx *gorm.DB
 	if req.GenealogyReq.Title != "" {
-		if tx := mgr.Where("title like ?", fmt.Sprint("%", req.GenealogyReq.Title, "%")).Count(&total); tx.Error != nil {
-			log.Errorf("_GenealogyRepository count error %v", tx.Error)
-			return nil, tx.Error
-		}
-	} else {
-		if tx := mgr.Count(&total); tx.Error != nil {
-			log.Errorf("_GenealogyRepository count error %v", tx.Error)
-			return nil, tx.Error
-		}
+		tx = mgr.Where("title like ?", fmt.Sprint("%", req.GenealogyReq.Title, "%"))
+	}
+	if tx = mgr.Count(&total); tx.Error != nil {
+		log.Errorf("_GenealogyRepository count error %v", tx.Error)
+		return nil, tx.Error
 	}
 	var genealogies []*domain.WxGenealogy
 	if tx := mgr.Limit(req.PagingReq.Limit).Offset(req.PagingReq.Offset).Find(&genealogies); tx.Error != nil {
 		log.Errorf("_GenealogyRepository paging error %v", tx.Error)
 		return nil, tx.Error
 	}
+	rsp = new(valobj.GenealogyPagingRes)
 	rsp.Total = total
 	rsp.Genealogies = genealogies
 	return

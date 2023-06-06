@@ -3,8 +3,8 @@ package domain
 import (
 	"context"
 	"fmt"
+	"time"
 
-	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
@@ -101,7 +101,7 @@ func (obj *_WxGenealogyMembersMgr) WithParentID(parentID int64) Option {
 }
 
 // WithBirthday birthday获取
-func (obj *_WxGenealogyMembersMgr) WithBirthday(birthday datatypes.Date) Option {
+func (obj *_WxGenealogyMembersMgr) WithBirthday(birthday time.Time) Option {
 	return optionFunc(func(o *options) { o.query["birthday"] = birthday })
 }
 
@@ -121,7 +121,7 @@ func (obj *_WxGenealogyMembersMgr) WithAge(age int) Option {
 }
 
 // WithDeadTime dead_time获取
-func (obj *_WxGenealogyMembersMgr) WithDeadTime(deadTime datatypes.Date) Option {
+func (obj *_WxGenealogyMembersMgr) WithDeadTime(deadTime time.Time) Option {
 	return optionFunc(func(o *options) { o.query["dead_time"] = deadTime })
 }
 
@@ -282,14 +282,14 @@ func (obj *_WxGenealogyMembersMgr) GetBatchFromParentID(parentIDs []int64) (resu
 }
 
 // GetFromBirthday 通过birthday获取内容
-func (obj *_WxGenealogyMembersMgr) GetFromBirthday(birthday datatypes.Date) (results []*WxGenealogyMembers, err error) {
+func (obj *_WxGenealogyMembersMgr) GetFromBirthday(birthday time.Time) (results []*WxGenealogyMembers, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxGenealogyMembers{}).Where("`birthday` = ?", birthday).Find(&results).Error
 
 	return
 }
 
 // GetBatchFromBirthday 批量查找
-func (obj *_WxGenealogyMembersMgr) GetBatchFromBirthday(birthdays []datatypes.Date) (results []*WxGenealogyMembers, err error) {
+func (obj *_WxGenealogyMembersMgr) GetBatchFromBirthday(birthdays []time.Time) (results []*WxGenealogyMembers, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxGenealogyMembers{}).Where("`birthday` IN (?)", birthdays).Find(&results).Error
 
 	return
@@ -338,14 +338,14 @@ func (obj *_WxGenealogyMembersMgr) GetBatchFromAge(ages []int) (results []*WxGen
 }
 
 // GetFromDeadTime 通过dead_time获取内容
-func (obj *_WxGenealogyMembersMgr) GetFromDeadTime(deadTime datatypes.Date) (results []*WxGenealogyMembers, err error) {
+func (obj *_WxGenealogyMembersMgr) GetFromDeadTime(deadTime time.Time) (results []*WxGenealogyMembers, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxGenealogyMembers{}).Where("`dead_time` = ?", deadTime).Find(&results).Error
 
 	return
 }
 
 // GetBatchFromDeadTime 批量查找
-func (obj *_WxGenealogyMembersMgr) GetBatchFromDeadTime(deadTimes []datatypes.Date) (results []*WxGenealogyMembers, err error) {
+func (obj *_WxGenealogyMembersMgr) GetBatchFromDeadTime(deadTimes []time.Time) (results []*WxGenealogyMembers, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model(WxGenealogyMembers{}).Where("`dead_time` IN (?)", deadTimes).Find(&results).Error
 
 	return

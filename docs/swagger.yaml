@@ -1,5 +1,36 @@
 definitions:
-  genealogy.GenealogyAssembleRes:
+  domain.WxGenealogyMembers:
+    properties:
+      addressDetail:
+        type: string
+      addressID:
+        type: integer
+      age:
+        type: integer
+      alive:
+        type: integer
+      avatar:
+        type: string
+      birthday:
+        type: string
+      deadTime:
+        type: string
+      genealogyID:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      parentID:
+        type: integer
+      phone:
+        type: integer
+      sex:
+        type: integer
+      userID:
+        type: integer
+    type: object
+  genealogy.AssembleRes:
     properties:
       genealogies:
         items:
@@ -38,6 +69,24 @@ definitions:
       Msg:
         type: string
     type: object
+  valobj.GenealogyMembersPagingReq:
+    properties:
+      genealogyId:
+        type: integer
+      limit:
+        type: integer
+      offset:
+        type: integer
+    type: object
+  valobj.GenealogyMembersPagingRes:
+    properties:
+      genealogyMembers:
+        items:
+          $ref: '#/definitions/domain.WxGenealogyMembers'
+        type: array
+      total:
+        type: integer
+    type: object
   valobj.GenealogyPagingReq:
     properties:
       limit:
@@ -70,10 +119,36 @@ paths:
             - properties:
                 Data:
                   items:
-                    $ref: '#/definitions/genealogy.GenealogyAssembleRes'
+                    $ref: '#/definitions/genealogy.AssembleRes'
                   type: array
               type: object
       summary: 分页聚合查询家谱数据
+      tags:
+      - Genealogy
+  /myapp/api/v1/genealogy/members:
+    post:
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/valobj.GenealogyMembersPagingReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Result'
+            - properties:
+                Data:
+                  items:
+                    $ref: '#/definitions/valobj.GenealogyMembersPagingRes'
+                  type: array
+              type: object
+      summary: 分页查询家谱人员信息
       tags:
       - Genealogy
   /v1/greeter:

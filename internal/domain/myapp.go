@@ -2,8 +2,6 @@ package domain
 
 import (
 	"time"
-
-	"gorm.io/datatypes"
 )
 
 // WxGenealogy [...]
@@ -38,20 +36,20 @@ var WxGenealogyColumns = struct {
 
 // WxGenealogyMembers [...]
 type WxGenealogyMembers struct {
-	ID            int64          `gorm:"primaryKey;column:id;type:bigint(20);not null"`
-	Name          string         `gorm:"column:name;type:varchar(255)"`
-	UserID        int64          `gorm:"column:user_id;type:bigint(20)"`
-	Avatar        string         `gorm:"column:avatar;type:varchar(255)"`
-	GenealogyID   int64          `gorm:"index:wx_genealogy_members_pk;column:genealogy_id;type:bigint(20);not null"`
-	Sex           int8           `gorm:"column:sex;type:tinyint(4);not null;default:0"`
-	AddressID     int64          `gorm:"column:address_id;type:bigint(20)"`
-	Phone         int            `gorm:"column:phone;type:int(11)"`
-	ParentID      int64          `gorm:"column:parent_id;type:bigint(20);not null;default:0"`
-	Birthday      datatypes.Date `gorm:"column:birthday;type:date"`
-	AddressDetail string         `gorm:"column:address_detail;type:varchar(255)"`
-	Alive         int8           `gorm:"column:alive;type:tinyint(4);not null;default:0"`
-	Age           int            `gorm:"column:age;type:int(11)"`
-	DeadTime      datatypes.Date `gorm:"column:dead_time;type:date"`
+	ID            int64     `gorm:"primaryKey;column:id;type:bigint(20);not null"`
+	Name          string    `gorm:"column:name;type:varchar(255)"`
+	UserID        int64     `gorm:"column:user_id;type:bigint(20)"`
+	Avatar        string    `gorm:"column:avatar;type:varchar(255)"`
+	GenealogyID   int64     `gorm:"index:wx_genealogy_members_pk;column:genealogy_id;type:bigint(20);not null"`
+	Sex           int8      `gorm:"column:sex;type:tinyint(4);not null;default:0"`
+	AddressID     int64     `gorm:"column:address_id;type:bigint(20)"`
+	Phone         int       `gorm:"column:phone;type:int(11)"`
+	ParentID      int64     `gorm:"column:parent_id;type:bigint(20);not null;default:0"`
+	Birthday      time.Time `gorm:"column:birthday;type:datetime"`
+	AddressDetail string    `gorm:"column:address_detail;type:varchar(255)"`
+	Alive         int8      `gorm:"column:alive;type:tinyint(4);not null;default:0"`
+	Age           int       `gorm:"column:age;type:int(11)"`
+	DeadTime      time.Time `gorm:"column:dead_time;type:datetime"`
 }
 
 // WxGenealogyMembersColumns get sql column name.获取数据库列名

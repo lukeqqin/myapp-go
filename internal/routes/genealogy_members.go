@@ -13,16 +13,16 @@ import (
 // @Tags Genealogy
 // @version 1.0
 // @produce application/json
-// @Param request body valobj.GenealogyPagingReq true "query params"
-// @Success 200 {object} response.Result{Data=[]genealogy.GenealogyAssembleRes}
+// @Param request body valobj.GenealogyMembersPagingReq true "query params"
+// @Success 200 {object} response.Result{Data=[]valobj.GenealogyMembersPagingRes}
 // @Router /myapp/api/v1/genealogy/members [post]
 func Members(c *gin.Context) {
-	req := new(valobj.GenealogyPagingReq)
+	req := new(valobj.GenealogyMembersPagingReq)
 	if err := c.ShouldBindJSON(req); err != nil {
 		response.Fail(c, err.Error())
 		return
 	}
-	results, err := genealogy.Assemble(req)
+	results, err := genealogy.PagingMembers(req)
 	if err != nil {
 		log.Errorf("FindAll err %v", err)
 		response.Fail(c, err.Error())

@@ -50,7 +50,52 @@ const docTemplate = `{
                                         "Data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/genealogy.GenealogyAssembleRes"
+                                                "$ref": "#/definitions/genealogy.AssembleRes"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/myapp/api/v1/genealogy/members": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Genealogy"
+                ],
+                "summary": "分页查询家谱人员信息",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/valobj.GenealogyMembersPagingReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Result"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "Data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/valobj.GenealogyMembersPagingRes"
                                             }
                                         }
                                     }
@@ -92,7 +137,54 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "genealogy.GenealogyAssembleRes": {
+        "domain.WxGenealogyMembers": {
+            "type": "object",
+            "properties": {
+                "addressDetail": {
+                    "type": "string"
+                },
+                "addressID": {
+                    "type": "integer"
+                },
+                "age": {
+                    "type": "integer"
+                },
+                "alive": {
+                    "type": "integer"
+                },
+                "avatar": {
+                    "type": "string"
+                },
+                "birthday": {
+                    "type": "string"
+                },
+                "deadTime": {
+                    "type": "string"
+                },
+                "genealogyID": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentID": {
+                    "type": "integer"
+                },
+                "phone": {
+                    "type": "integer"
+                },
+                "sex": {
+                    "type": "integer"
+                },
+                "userID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "genealogy.AssembleRes": {
             "type": "object",
             "properties": {
                 "genealogies": {
@@ -149,6 +241,34 @@ const docTemplate = `{
                 "Data": {},
                 "Msg": {
                     "type": "string"
+                }
+            }
+        },
+        "valobj.GenealogyMembersPagingReq": {
+            "type": "object",
+            "properties": {
+                "genealogyId": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                }
+            }
+        },
+        "valobj.GenealogyMembersPagingRes": {
+            "type": "object",
+            "properties": {
+                "genealogyMembers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.WxGenealogyMembers"
+                    }
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },

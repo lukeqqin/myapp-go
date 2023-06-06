@@ -3,13 +3,13 @@ package valobj
 import "myapp-go/internal/domain"
 
 type GenealogyMembersPagingReq struct {
-	GenealogyReq
+	GenealogyMembersReq
 	PagingReq
 }
 type GenealogyMembersReq struct {
-	GenealogyId string
+	GenealogyId int64
 }
-type GenealogyPagingRes struct {
-	Total       int64
-	Genealogies []*domain.WxGenealogy
+type GenealogyMembersPagingRes struct {
+	Total            int64
+	GenealogyMembers []*domain.WxGenealogyMembers
 }
