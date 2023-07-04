@@ -34,8 +34,8 @@ var WxGenealogyColumns = struct {
 	UpdateBy: "update_by",
 }
 
-// WxGenealogyMembers [...]
-type WxGenealogyMembers struct {
+// WxGenealogyMember [...]
+type WxGenealogyMember struct {
 	ID            int64     `gorm:"primaryKey;column:id;type:bigint(20);not null"`
 	Name          string    `gorm:"column:name;type:varchar(255)"`
 	UserID        int64     `gorm:"column:user_id;type:bigint(20)"`
@@ -50,10 +50,11 @@ type WxGenealogyMembers struct {
 	Alive         int8      `gorm:"column:alive;type:tinyint(4);not null;default:0"`
 	Age           int       `gorm:"column:age;type:int(11)"`
 	DeadTime      time.Time `gorm:"column:dead_time;type:datetime"`
+	Role          int8      `gorm:"column:role;type:tinyint(4);not null;default:0"`
 }
 
-// WxGenealogyMembersColumns get sql column name.获取数据库列名
-var WxGenealogyMembersColumns = struct {
+// WxGenealogyMemberColumns get sql column name.获取数据库列名
+var WxGenealogyMemberColumns = struct {
 	ID            string
 	Name          string
 	UserID        string
@@ -68,6 +69,7 @@ var WxGenealogyMembersColumns = struct {
 	Alive         string
 	Age           string
 	DeadTime      string
+	Role          string
 }{
 	ID:            "id",
 	Name:          "name",
@@ -83,6 +85,7 @@ var WxGenealogyMembersColumns = struct {
 	Alive:         "alive",
 	Age:           "age",
 	DeadTime:      "dead_time",
+	Role:          "role",
 }
 
 // WxGenealogyTags [...]

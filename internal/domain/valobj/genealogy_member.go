@@ -8,8 +8,9 @@ type GenealogyMembersPagingReq struct {
 }
 type GenealogyMembersReq struct {
 	GenealogyId int64
+	Name        string
 }
-type GenealogyMembersPagingRes struct {
+type GenealogyMembersPagingRsp struct {
 	Total            int64
-	GenealogyMembers []*domain.WxGenealogyMembers
+	GenealogyMembers []*domain.WxGenealogyMember
 }

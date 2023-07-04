@@ -75,5 +75,10 @@ mysql:
         autoCreate: false              # Optional, default: false
         dryRun: false                # Optional, default: false
 #        params: []                   # Optional, default: ["charset=utf8mb4","parseTime=True","loc=Local"]
+myapp:
+  cos:
+    secretId: AKIDOgkcJnV2MYXIp8SZR8csujKX6UdibGj0
+    secretKey: EHBxa2ILAmBNM8mFXihXHtOiseGguvhF
+
 
 

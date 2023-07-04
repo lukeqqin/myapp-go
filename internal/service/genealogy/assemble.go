@@ -5,7 +5,7 @@ import (
 	"myapp-go/internal/infrustructure/persistence"
 )
 
-type AssembleRes struct {
+type AssembleRsp struct {
 	Total       int64
 	Genealogies []*wxGenealogyAssemble
 }
@@ -16,15 +16,14 @@ type wxGenealogyAssemble struct {
 	Cover    string
 	CreateBy string
 	Avatar   string
-	Tags     []string
 }
 
-func Assemble(req *valobj.GenealogyPagingReq) (rsp *AssembleRes, err error) {
+func Assemble(req *valobj.GenealogyPagingReq) (rsp *AssembleRsp, err error) {
 	grsp, err := persistence.GenealogyRepository.Paging(req)
 	if err != nil {
 		return nil, err
 	}
-	rsp = new(AssembleRes)
+	rsp = new(AssembleRsp)
 	rsp.Total = grsp.Total
 	var wxGenealogyAssembles []*wxGenealogyAssemble
 	for i := range grsp.Genealogies {
@@ -33,21 +32,12 @@ func Assemble(req *valobj.GenealogyPagingReq) (rsp *AssembleRes, err error) {
 		if err != nil {
 			return nil, err
 		}
-		tags, err := persistence.GenealogyTagRepository.FetchIndexByWxGenealogyTagsGenealogyIDIndex(v.ID)
-		if err != nil {
-			return nil, err
-		}
-		var Tags []string
-		for _, tag := range tags {
-			Tags = append(Tags, tag.Name)
-		}
 		wxGenealogyAssemble := &wxGenealogyAssemble{
 			ID:       v.ID,
 			Title:    v.Title,
 			Cover:    v.Cover,
 			CreateBy: u.Nickname,
 			Avatar:   u.Avatar,
-			Tags:     Tags,
 		}
 		wxGenealogyAssembles = append(wxGenealogyAssembles, wxGenealogyAssemble)
 	}

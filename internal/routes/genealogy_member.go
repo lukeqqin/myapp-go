@@ -14,7 +14,7 @@ import (
 // @version 1.0
 // @produce application/json
 // @Param request body valobj.GenealogyMembersPagingReq true "query params"
-// @Success 200 {object} response.Result{Data=[]valobj.GenealogyMembersPagingRes}
+// @Success 200 {object} response.Result{Data=[]valobj.GenealogyMembersPagingRsp}
 // @Router /myapp/api/v1/genealogy/members [post]
 func Members(c *gin.Context) {
 	req := new(valobj.GenealogyMembersPagingReq)

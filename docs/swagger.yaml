@@ -1,5 +1,22 @@
 definitions:
-  domain.WxGenealogyMembers:
+  domain.WxGenealogy:
+    properties:
+      cover:
+        type: string
+      createAt:
+        type: string
+      createBy:
+        type: integer
+      id:
+        type: integer
+      title:
+        type: string
+      updateAt:
+        type: string
+      updateBy:
+        type: integer
+    type: object
+  domain.WxGenealogyMember:
     properties:
       addressDetail:
         type: string
@@ -25,12 +42,14 @@ definitions:
         type: integer
       phone:
         type: integer
+      role:
+        type: integer
       sex:
         type: integer
       userID:
         type: integer
     type: object
-  genealogy.AssembleRes:
+  genealogy.AssembleRsp:
     properties:
       genealogies:
         items:
@@ -49,10 +68,6 @@ definitions:
         type: string
       id:
         type: integer
-      tags:
-        items:
-          type: string
-        type: array
       title:
         type: string
     type: object
@@ -78,11 +93,11 @@ definitions:
       offset:
         type: integer
     type: object
-  valobj.GenealogyMembersPagingRes:
+  valobj.GenealogyMembersPagingRsp:
     properties:
       genealogyMembers:
         items:
-          $ref: '#/definitions/domain.WxGenealogyMembers'
+          $ref: '#/definitions/domain.WxGenealogyMember'
         type: array
       total:
         type: integer
@@ -95,6 +110,11 @@ definitions:
         type: integer
       title:
         type: string
+    type: object
+  valobj.MyGenealogyReq:
+    properties:
+      userId:
+        type: integer
     type: object
 info:
   contact: {}
@@ -119,10 +139,29 @@ paths:
             - properties:
                 Data:
                   items:
-                    $ref: '#/definitions/genealogy.AssembleRes'
+                    $ref: '#/definitions/genealogy.AssembleRsp'
                   type: array
               type: object
       summary: 分页聚合查询家谱数据
+      tags:
+      - Genealogy
+  /myapp/api/v1/genealogy/member/save:
+    post:
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.WxGenealogyMember'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+      summary: 保存家谱成员
       tags:
       - Genealogy
   /myapp/api/v1/genealogy/members:
@@ -145,10 +184,55 @@ paths:
             - properties:
                 Data:
                   items:
-                    $ref: '#/definitions/valobj.GenealogyMembersPagingRes'
+                    $ref: '#/definitions/valobj.GenealogyMembersPagingRsp'
                   type: array
               type: object
       summary: 分页查询家谱人员信息
+      tags:
+      - Genealogy
+  /myapp/api/v1/genealogy/my:
+    post:
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/valobj.MyGenealogyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Result'
+            - properties:
+                Data:
+                  items:
+                    $ref: '#/definitions/domain.WxGenealogy'
+                  type: array
+              type: object
+      summary: 查询自己的所有族谱
+      tags:
+      - Genealogy
+  /myapp/api/v1/genealogy/save:
+    post:
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.WxGenealogy'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+      summary: 保存家谱
       tags:
       - Genealogy
   /v1/greeter:

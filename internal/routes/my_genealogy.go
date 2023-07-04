@@ -8,23 +8,23 @@ import (
 	"myapp-go/internal/service/genealogy"
 )
 
-// Assemble handler
-// @Summary 分页聚合查询家谱数据
+// MyGenealogy handler
+// @Summary 查询自己的所有族谱
 // @Tags Genealogy
 // @version 1.0
 // @produce application/json
-// @Param request body valobj.GenealogyPagingReq true "query params"
-// @Success 200 {object} response.Result{Data=[]genealogy.AssembleRsp}
-// @Router /myapp/api/v1/genealogy/assemble [post]
-func Assemble(c *gin.Context) {
-	req := new(valobj.GenealogyPagingReq)
+// @Param request body valobj.MyGenealogyReq true "query params"
+// @Success 200 {object} response.Result{Data=[]domain.WxGenealogy}
+// @Router /myapp/api/v1/genealogy/my [post]
+func MyGenealogy(c *gin.Context) {
+	req := new(valobj.MyGenealogyReq)
 	if err := c.ShouldBindJSON(req); err != nil {
 		response.Fail(c, err.Error())
 		return
 	}
-	results, err := genealogy.Assemble(req)
+	results, err := genealogy.MyGenealogy(req)
 	if err != nil {
-		log.Errorf("FindAll err %v", err)
+		log.Errorf("MyGenealogy err %v", err)
 		response.Fail(c, err.Error())
 	} else {
 		response.Success(c, results)

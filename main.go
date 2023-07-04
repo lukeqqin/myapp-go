@@ -2,19 +2,20 @@ package main
 
 import (
 	"context"
-	"fmt"
-	"github.com/gin-gonic/gin"
+	"embed"
 	"github.com/rookie-ninja/rk-boot/v2"
 	"github.com/rookie-ninja/rk-gin/v2/boot"
 	"myapp-go/internal/infrustructure/rk"
 	_ "myapp-go/internal/infrustructure/rk"
 	"myapp-go/internal/routes"
-	"net/http"
 )
 
+//go:embed boot.yaml
+var embedFS embed.FS
+
 func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
+	rk.LoadMyEntry()
+	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("boot.yaml", &embedFS))
 	// Bootstrap
 	boot.Bootstrap(context.Background())
 	rk.Init()
@@ -24,28 +25,13 @@ func main() {
 		genealogy := myapp.Group("/genealogy")
 		{
 			genealogy.POST("/assemble", routes.Assemble)
+			genealogy.POST("/my", routes.MyGenealogy)
+			genealogy.POST("/save", routes.SaveGenealogy)
 			genealogy.POST("/members", routes.Members)
+			genealogy.POST("/member/save", routes.SaveGenealogyMember)
+
 		}
 	}
 	boot.WaitForShutdownSig(context.Background())
 
-}
-
-// Greeter handler
-// @Summary Greeter
-// @Id 1
-// @Tags Hello
-// @version 1.0
-// @Param name query string true "name"
-// @produce application/json
-// @Success 200 {object} GreeterResponse
-// @Router /v1/greeter [get]
-func Greeter(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, &GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", ctx.Query("name")),
-	})
-}
-
-type GreeterResponse struct {
-	Message string
 }

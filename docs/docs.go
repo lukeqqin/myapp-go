@@ -50,12 +50,42 @@ const docTemplate = `{
                                         "Data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/genealogy.AssembleRes"
+                                                "$ref": "#/definitions/genealogy.AssembleRsp"
                                             }
                                         }
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/myapp/api/v1/genealogy/member/save": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Genealogy"
+                ],
+                "summary": "保存家谱成员",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.WxGenealogyMember"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
                         }
                     }
                 }
@@ -95,12 +125,87 @@ const docTemplate = `{
                                         "Data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/valobj.GenealogyMembersPagingRes"
+                                                "$ref": "#/definitions/valobj.GenealogyMembersPagingRsp"
                                             }
                                         }
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/myapp/api/v1/genealogy/my": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Genealogy"
+                ],
+                "summary": "查询自己的所有族谱",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/valobj.MyGenealogyReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Result"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "Data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/domain.WxGenealogy"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/myapp/api/v1/genealogy/save": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Genealogy"
+                ],
+                "summary": "保存家谱",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.WxGenealogy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
                         }
                     }
                 }
@@ -137,7 +242,33 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "domain.WxGenealogyMembers": {
+        "domain.WxGenealogy": {
+            "type": "object",
+            "properties": {
+                "cover": {
+                    "type": "string"
+                },
+                "createAt": {
+                    "type": "string"
+                },
+                "createBy": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updateAt": {
+                    "type": "string"
+                },
+                "updateBy": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.WxGenealogyMember": {
             "type": "object",
             "properties": {
                 "addressDetail": {
@@ -176,6 +307,9 @@ const docTemplate = `{
                 "phone": {
                     "type": "integer"
                 },
+                "role": {
+                    "type": "integer"
+                },
                 "sex": {
                     "type": "integer"
                 },
@@ -184,7 +318,7 @@ const docTemplate = `{
                 }
             }
         },
-        "genealogy.AssembleRes": {
+        "genealogy.AssembleRsp": {
             "type": "object",
             "properties": {
                 "genealogies": {
@@ -212,12 +346,6 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
-                },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
                 },
                 "title": {
                     "type": "string"
@@ -258,13 +386,13 @@ const docTemplate = `{
                 }
             }
         },
-        "valobj.GenealogyMembersPagingRes": {
+        "valobj.GenealogyMembersPagingRsp": {
             "type": "object",
             "properties": {
                 "genealogyMembers": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/domain.WxGenealogyMembers"
+                        "$ref": "#/definitions/domain.WxGenealogyMember"
                     }
                 },
                 "total": {
@@ -283,6 +411,14 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
+                }
+            }
+        },
+        "valobj.MyGenealogyReq": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "type": "integer"
                 }
             }
         }

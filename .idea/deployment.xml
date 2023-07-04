@@ -6,7 +6,7 @@
       <paths name="139.155.137.11">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/root/myapp" />
           </mappings>
         </serverdata>
       </paths>

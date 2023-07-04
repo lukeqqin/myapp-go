@@ -17,7 +17,7 @@ func newGenealogyRepository(db *gorm.DB) *_GenealogyRepository {
 	return &_GenealogyRepository{db: db}
 }
 
-func (gr *_GenealogyRepository) Paging(req *valobj.GenealogyPagingReq) (rsp *valobj.GenealogyPagingRes, err error) {
+func (gr *_GenealogyRepository) Paging(req *valobj.GenealogyPagingReq) (rsp *valobj.GenealogyPagingRsp, err error) {
 	var total int64
 	mgr := domain.WxGenealogyMgr(gr.db)
 	var tx *gorm.DB
@@ -33,8 +33,37 @@ func (gr *_GenealogyRepository) Paging(req *valobj.GenealogyPagingReq) (rsp *val
 		log.Errorf("_GenealogyRepository paging error %v", tx.Error)
 		return nil, tx.Error
 	}
-	rsp = new(valobj.GenealogyPagingRes)
+	rsp = new(valobj.GenealogyPagingRsp)
 	rsp.Total = total
 	rsp.Genealogies = genealogies
 	return
+}
+
+func (gr *_GenealogyRepository) FindByIds(ids []int64) (rsp []*domain.WxGenealogy, err error) {
+	mgr := domain.WxGenealogyMgr(gr.db)
+	rsp, err = mgr.GetBatchFromID(ids)
+	if err != nil {
+		log.Errorf("_GenealogyRepository FindByIds error %v", err)
+		return nil, err
+	}
+	return
+}
+
+func (gr *_GenealogyRepository) FindById(ids int64) (rsp *domain.WxGenealogy, err error) {
+	mgr := domain.WxGenealogyMgr(gr.db)
+	result, err := mgr.FetchByPrimaryKey(ids)
+	if err != nil {
+		log.Errorf("_GenealogyRepository FetchByPrimaryKey error %v", err)
+		return nil, err
+	}
+	rsp = &result
+	return
+}
+func (gr *_GenealogyRepository) Save(req *domain.WxGenealogy) error {
+	mgr := domain.WxGenealogyMgr(gr.db)
+	if tx := mgr.Save(req); tx.Error != nil {
+		log.Errorf("_GenealogyRepository add error %v", tx.Error)
+		return tx.Error
+	}
+	return nil
 }

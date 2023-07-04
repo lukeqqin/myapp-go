@@ -9,7 +9,11 @@ type GenealogyPagingReq struct {
 type GenealogyReq struct {
 	Title string
 }
-type GenealogyPagingRes struct {
+type GenealogyPagingRsp struct {
 	Total       int64
 	Genealogies []*domain.WxGenealogy
+}
+
+type MyGenealogyReq struct {
+	UserId int64
 }
