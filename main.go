@@ -29,7 +29,10 @@ func main() {
 			genealogy.POST("/save", routes.SaveGenealogy)
 			genealogy.POST("/members", routes.Members)
 			genealogy.POST("/member/save", routes.SaveGenealogyMember)
-
+		}
+		cos := myapp.Group("/cos")
+		{
+			cos.POST("/upload", routes.CosUpload)
 		}
 	}
 	boot.WaitForShutdownSig(context.Background())

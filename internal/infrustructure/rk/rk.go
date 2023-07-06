@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	rkmysql "github.com/rookie-ninja/rk-db/mysql"
 	rkentry "github.com/rookie-ninja/rk-entry/v2/entry"
-	"myapp-go/internal/infrustructure/rk/cos"
+	"myapp-go/internal/infrustructure/cos"
 	"myapp-go/internal/infrustructure/rk/db"
 	"myapp-go/internal/infrustructure/rk/log"
 )
@@ -22,10 +22,9 @@ func Init() {
 	mysqlEntry := rkmysql.GetMySqlEntry("myapp")
 	myappDb := mysqlEntry.GetDB("myapp")
 	db.New(myappDb)
-
 	myEntry := rkentry.GlobalAppCtx.GetEntry(myEntryType, myEntryName)
 	myapp, _ := myEntry.(*MyEntry)
-	cos.New(myapp.MyApp.Cos)
+	cos.NewCosClient(myapp.MyApp.Cos)
 }
 
 // A struct which is for unmarshalled YAML

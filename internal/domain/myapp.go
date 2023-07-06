@@ -4,6 +4,36 @@ import (
 	"time"
 )
 
+// WxCos [...]
+type WxCos struct {
+	ID       int64     `gorm:"primaryKey;column:id;type:bigint(20);not null"`
+	URL      string    `gorm:"unique;column:url;type:varchar(255);not null"`
+	CreateBy int64     `gorm:"column:create_by;type:bigint(20)"`
+	Status   int8      `gorm:"column:status;type:tinyint(4);not null;default:0"`
+	UpdateAt time.Time `gorm:"column:update_at;type:datetime;default:CURRENT_TIMESTAMP"`
+	UpdateTy int64     `gorm:"column:update_ty;type:bigint(20);not null"`
+	CreateAt time.Time `gorm:"column:create_at;type:datetime;default:CURRENT_TIMESTAMP"`
+}
+
+// WxCosColumns get sql column name.获取数据库列名
+var WxCosColumns = struct {
+	ID       string
+	URL      string
+	CreateBy string
+	Status   string
+	UpdateAt string
+	UpdateTy string
+	CreateAt string
+}{
+	ID:       "id",
+	URL:      "url",
+	CreateBy: "create_by",
+	Status:   "status",
+	UpdateAt: "update_at",
+	UpdateTy: "update_ty",
+	CreateAt: "create_at",
+}
+
 // WxGenealogy [...]
 type WxGenealogy struct {
 	ID       int64     `gorm:"primaryKey;column:id;type:bigint(20);not null"`

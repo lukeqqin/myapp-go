@@ -59,6 +59,7 @@ func (gr *_GenealogyRepository) FindById(ids int64) (rsp *domain.WxGenealogy, er
 	rsp = &result
 	return
 }
+
 func (gr *_GenealogyRepository) Save(req *domain.WxGenealogy) error {
 	mgr := domain.WxGenealogyMgr(gr.db)
 	if tx := mgr.Save(req); tx.Error != nil {
