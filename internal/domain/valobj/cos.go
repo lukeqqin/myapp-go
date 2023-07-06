@@ -12,3 +12,8 @@ type UploadReq struct {
 type UploadRsp struct {
 	Url string
 }
+
+type UpdateStatusReq struct {
+	Url    string
+	Status int8
+}

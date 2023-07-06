@@ -13,7 +13,3 @@ type GenealogyPagingRsp struct {
 	Total       int64
 	Genealogies []*domain.WxGenealogy
 }
-
-type MyGenealogyReq struct {
-	UserId int64
-}

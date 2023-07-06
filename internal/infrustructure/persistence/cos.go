@@ -22,3 +22,9 @@ func (gr *_CosRepository) Save(req *domain.WxCos) error {
 	}
 	return nil
 }
+
+func (gr *_CosRepository) FetchUniqueByWxCosURL(url string) (rsp domain.WxCos, err error) {
+	mgr := domain.WxCosMgr(gr.db)
+	rsp, err = mgr.FetchUniqueByWxCosURL(url)
+	return
+}

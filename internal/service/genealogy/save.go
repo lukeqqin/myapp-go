@@ -6,16 +6,17 @@ import (
 )
 
 func Save(req *domain.WxGenealogy) error {
-	if req.ID == 0 {
-		return persistence.GenealogyRepository.Save(req)
+	err := persistence.GenealogyRepository.Save(req)
+	if err != nil {
+		return err
 	}
-	//if req {
-	//
-	//}
-	//rsp, err := persistence.GenealogyRepository.FindById(req.ID)
-	//if err != nil {
-	//	return err
-	//}
-	//err := persistence.GenealogyRepository.Save(req)
-	return nil
+	if req.Cover == "" {
+		return nil
+	}
+	cover, err := persistence.CosRepository.FetchUniqueByWxCosURL(req.Cover)
+	if err != nil {
+		return err
+	}
+	cover.Status = 1
+	return persistence.CosRepository.Save(&cover)
 }
